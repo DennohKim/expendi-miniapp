@@ -17,9 +17,18 @@ import {
 } from '../../lib/apis/basenames';
 import { Input } from '../ui/input';
 
+interface TestResult {
+  type: 'address-to-basename' | 'basename-to-address' | 'basename-metadata' | 'resolve-recipient' | 'resolver-test' | 'check-exists' | 'test-resolver';
+  input: string;
+  output?: string | Record<string, unknown> | boolean | null;
+  success: boolean;
+  error?: string;
+  debug?: Record<string, unknown>;
+}
+
 export function BasenameTest() {
   const [input, setInput] = useState('');
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<TestResult | null>(null);
   const [loading, setLoading] = useState(false);
 
   const testAddressToBasename = async () => {

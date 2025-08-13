@@ -3,12 +3,12 @@ import { toast } from 'sonner';
 import { formatUnits, isAddress } from 'viem';
 import { useSpendFromBucket } from './useSpendFromBucket';
 import { useMobilePayment } from './useMobilePayment';
+import { SmartAccountClientType } from './types/smart-account';
 // import { useReceiptGeneration } from './useReceiptGeneration';
 
 interface BucketPaymentRequest {
   // Required data
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  smartAccountClient: any; // Smart account client from permissionless
+  smartAccountClient: SmartAccountClientType; // Smart account client from permissionless
   walletAddress: `0x${string}`;
   userAddress: `0x${string}`;
   bucketName: string;

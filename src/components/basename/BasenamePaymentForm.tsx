@@ -11,16 +11,18 @@ import {
   useRecipientDisplayName,
   useRecipientValidation 
 } from '../../hooks/useBasenamePayment';
-import { isValidBasename, normalizeBasename } from '../../lib/apis/basenames';
+import { normalizeBasename } from '../../lib/apis/basenames';
 import { Button } from '../ui/button';
-import { Input } from '../form/input/InputField';
-import { Label } from '../form/Label';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Separator } from '../ui/separator';
-import { useSmartAccountContext } from '../../context/SmartAccountContext';
+import { useSmartAccount } from '@/context/SmartAccountContext';
 import { useWalletUser } from '../../hooks/useWalletUser';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { UserBucket } from '../../types/smart-account';
 
 interface BasenamePaymentFormProps {
   bucketName?: string;
@@ -37,15 +39,15 @@ export function BasenamePaymentForm({
   monthlyLimit = '0',
   onSuccess
 }: BasenamePaymentFormProps) {
-  const { ready, authenticated, user } = usePrivy();
+  const { authenticated} = usePrivy();
   const { wallets } = useWallets();
-  const { smartAccountClient } = useSmartAccountContext();
+  const { smartAccountClient } = useSmartAccount();
   
   // Get the embedded wallet from Privy
   const embeddedWallet = wallets.find(wallet => wallet.walletClientType === 'privy');
   const address = embeddedWallet?.address;
   
-  const { data: walletData } = useWalletUser();
+  const walletData = useWalletUser();
   
   const [amount, setAmount] = useState('');
   const [recipient, setRecipient] = useState('');
@@ -224,7 +226,7 @@ export function BasenamePaymentForm({
               required
             >
               <option value="">Choose a bucket...</option>
-              {availableBuckets.map((bucket: any) => (
+              {availableBuckets.map((bucket: UserBucket) => (
                 <option key={bucket.name} value={bucket.name}>
                   {bucket.name} - {formatUnits(BigInt(bucket.balance || '0'), 6)} USDC
                 </option>
