@@ -13,7 +13,7 @@ interface FarcasterContextType {
     ready: () => Promise<void>;
     openUrl: (url: string) => Promise<void>;
     close: () => Promise<void>;
-    composeCast: (options: { text: string; embeds?: string[] }) => Promise<void>;
+    composeCast: (options: { text: string; embeds?: [] | [string] | [string, string] }) => Promise<void>;
   };
 }
 
@@ -96,7 +96,7 @@ export const FarcasterProvider = ({ children }: FarcasterProviderProps) => {
       }
     },
 
-    composeCast: async (options: { text: string; embeds?: string[] }) => {
+    composeCast: async (options: { text: string; embeds?: [] | [string] | [string, string] }) => {
       if (sdkInstance?.actions?.composeCast) {
         try {
           await sdkInstance.actions.composeCast(options);
