@@ -8,6 +8,7 @@ import { sdk } from '@farcaster/frame-sdk';
 export const useFarcasterAuth = () => {
   const { ready, authenticated, user } = usePrivy();
   const [farcasterSDK, setFarcasterSDK] = useState<typeof sdk | null>(null);
+  const [farcasterContext, setFarcasterContext] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,19 +23,26 @@ export const useFarcasterAuth = () => {
     }
   }, []);
 
-  // Handle Farcaster SDK initialization
+  // Handle Farcaster SDK initialization and context resolution
   useEffect(() => {
     if (!farcasterSDK || !ready) return;
     
-    // Simple initialization without authentication flow
-    // Authentication will be handled by Privy with Farcaster login method
-    setIsLoading(false);
+    const resolveContext = async () => {
+      try {
+        const context = await farcasterSDK.context;
+        setFarcasterContext(context);
+      } catch (err) {
+        console.error('Failed to resolve Farcaster context:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    resolveContext();
   }, [farcasterSDK, ready]);
 
   // Get Farcaster profile information
-  const farcasterProfile = farcasterSDK && isFarcasterSDKReady(farcasterSDK) 
-    ? farcasterSDK.context?.user 
-    : null;
+  const farcasterProfile = farcasterContext?.user || null;
 
   return {
     // Authentication state

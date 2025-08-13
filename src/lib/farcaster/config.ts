@@ -30,10 +30,7 @@ export const farcasterPrivyConfig: PrivyClientConfig = {
     noPromptOnMfaRequired: false,
   },
   
-  // Farcaster-specific configuration
-  farcaster: {
-    // Optional: Configure Farcaster-specific settings here
-  },
+  // Farcaster-specific configuration is handled via loginMethods
   
   // Legal configuration
   legal: {

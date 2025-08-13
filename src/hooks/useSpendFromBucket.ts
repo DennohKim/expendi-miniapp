@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 import { parseUnits } from 'viem';
 import { BUDGET_WALLET_ABI } from '@/lib/contracts/budget-wallet';
 import { getNetworkConfig } from '@/lib/contracts/config';
-import { SmartAccountClientType } from './types/smart-account';
+import { SmartAccountClientType } from '../types/smart-account';
 
 interface SpendFromBucketRequest {
   smartAccountClient: SmartAccountClientType; // Smart account client from permissionless

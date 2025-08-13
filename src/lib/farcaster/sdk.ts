@@ -13,16 +13,22 @@ export const isFarcasterSDKReady = (farcasterSDK: typeof sdk): boolean => {
 };
 
 // Get user's Farcaster profile from SDK context
-export const getFarcasterProfile = (farcasterSDK: typeof sdk) => {
+export const getFarcasterProfile = async (farcasterSDK: typeof sdk) => {
   if (!isFarcasterSDKReady(farcasterSDK)) return null;
   
-  return farcasterSDK.context?.user || null;
+  try {
+    const context = await farcasterSDK.context;
+    return context?.user || null;
+  } catch (error) {
+    console.error('Failed to get Farcaster profile:', error);
+    return null;
+  }
 };
 
 // Utility to share content to Farcaster
 export const shareToFarcaster = async (farcasterSDK: typeof sdk, content: {
   text: string;
-  embeds?: string[];
+  embeds?: [] | [string] | [string, string];
 }) => {
   if (!isFarcasterSDKReady(farcasterSDK)) {
     console.warn('Farcaster SDK not ready for sharing');
