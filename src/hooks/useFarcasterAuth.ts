@@ -5,10 +5,27 @@ import { usePrivy } from '@privy-io/react-auth';
 import { initializeFarcasterSDK, isFarcasterSDKReady } from '@/lib/farcaster/sdk';
 import { sdk } from '@farcaster/frame-sdk';
 
+interface FarcasterContext {
+  user?: {
+    fid?: number;
+    username?: string;
+    displayName?: string;
+    pfp?: string;
+    bio?: string;
+  };
+  cast?: {
+    hash?: string;
+    author?: {
+      fid?: number;
+      username?: string;
+    };
+  };
+}
+
 export const useFarcasterAuth = () => {
   const { ready, authenticated, user } = usePrivy();
   const [farcasterSDK, setFarcasterSDK] = useState<typeof sdk | null>(null);
-  const [farcasterContext, setFarcasterContext] = useState<any>(null);
+  const [farcasterContext, setFarcasterContext] = useState<FarcasterContext | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
