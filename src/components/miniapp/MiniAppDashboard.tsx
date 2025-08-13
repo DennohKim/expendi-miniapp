@@ -8,6 +8,16 @@ import { MiniAppWalletOverview } from './MiniAppWalletOverview';
 import { MiniAppQuickActions } from './MiniAppQuickActions';
 import { MiniAppRecentTransactions } from './MiniAppRecentTransactions';
 
+interface BudgetWallet {
+  id: string;
+  buckets?: Array<{
+    id: string;
+    name: string;
+    balance: string;
+    spentAmount?: string;
+  }>;
+}
+
 interface FarcasterProfile {
   username?: string;
   pfp?: string;
@@ -20,11 +30,11 @@ interface MiniAppDashboardProps {
 
 export const MiniAppDashboard = ({ farcasterProfile }: MiniAppDashboardProps) => {
   const { walletAddress } = useWalletAddress();
-  const { data: budgetWallet, isLoading } = useUserBudgetWallet(walletAddress);
+  const { data: budgetWallet, loading } = useUserBudgetWallet(walletAddress);
   const [activeTab, setActiveTab] = useState<'overview' | 'actions' | 'history'>('overview');
 
   // Remove unused budgetWallet parameter warnings
-  console.log('Budget wallet data:', budgetWallet, 'Loading:', isLoading);
+  console.log('Budget wallet data:', budgetWallet, 'Loading:', loading);
 
   return (
     <div className="min-h-screen bg-white">
@@ -59,7 +69,7 @@ export const MiniAppDashboard = ({ farcasterProfile }: MiniAppDashboardProps) =>
 
       {/* Content */}
       <div className="p-4">
-        {isLoading ? (
+        {loading ? (
           <div className="flex items-center justify-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
           </div>
