@@ -16,7 +16,7 @@ interface MiniAppHeaderProps {
 export const MiniAppHeader = ({ farcasterProfile, walletAddress }: MiniAppHeaderProps) => {
   const handleShare = async () => {
     try {
-      const sdk = initializeFarcasterSDK();
+      const sdk = await initializeFarcasterSDK();
       await shareToFarcaster(sdk, {
         text: "🚀 Just checked my budget on @expendi! Managing my expenses with Web3 has never been easier. Try it out!",
         embeds: [window.location.origin + '/miniapp']

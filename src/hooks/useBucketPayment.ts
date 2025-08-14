@@ -7,8 +7,11 @@ import { useMobilePayment } from './useMobilePayment';
 
 interface BucketPaymentRequest {
   // Required data
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  smartAccountClient: any; // Smart account client from permissionless
+  smartAccountClient: {
+    account?: { address: `0x${string}` };
+    chain?: unknown;
+    writeContract: (...args: unknown[]) => Promise<`0x${string}`>;
+  };
   walletAddress: `0x${string}`;
   userAddress: `0x${string}`;
   bucketName: string;

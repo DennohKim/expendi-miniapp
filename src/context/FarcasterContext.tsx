@@ -101,7 +101,12 @@ export const FarcasterProvider = ({ children }: FarcasterProviderProps) => {
     composeCast: async (options: { text: string; embeds?: string[] }) => {
       if (sdkInstance?.actions?.composeCast) {
         try {
-          await sdkInstance.actions.composeCast(options);
+          // Convert embeds array to the expected tuple format
+          const embeds = options.embeds ? options.embeds.slice(0, 2) as [] | [string] | [string, string] : undefined;
+          await sdkInstance.actions.composeCast({
+            text: options.text,
+            embeds
+          });
         } catch (err) {
           console.error('Failed to compose cast:', err);
         }

@@ -7,14 +7,19 @@ import {
   getBasenameMetadata,
   isValidBasename,
   normalizeBasename,
-  type BaseName 
 } from '../lib/apis/basenames';
 import { useSpendFromBucket } from './useSpendFromBucket';
+
+type SmartAccountClientType = {
+  account?: { address: `0x${string}` };
+  chain?: unknown;
+  writeContract: (...args: unknown[]) => Promise<`0x${string}`>;
+};
 import { getNetworkConfig } from '../lib/contracts/config';
 import { BUDGET_WALLET_ABI } from '../lib/contracts/budget-wallet';
 
 interface BasenamePaymentRequest {
-  smartAccountClient: any; // Smart account client from permissionless
+  smartAccountClient: SmartAccountClientType;
   walletAddress: `0x${string}`;
   userAddress: `0x${string}`;
   bucketName: string;

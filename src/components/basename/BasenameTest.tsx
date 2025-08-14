@@ -19,7 +19,14 @@ import { Input } from '../ui/input';
 
 export function BasenameTest() {
   const [input, setInput] = useState('');
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<{
+    type: string;
+    input: string;
+    output?: unknown;
+    error?: string;
+    success: boolean;
+    debug?: Record<string, unknown>;
+  } | null>(null);
   const [loading, setLoading] = useState(false);
 
   const testAddressToBasename = async () => {
@@ -278,11 +285,11 @@ export function BasenameTest() {
                 <p><strong>Error:</strong> <span className="text-red-600">{result.error}</span></p>
               )}
               
-              {result.output && (
+              {result?.output !== undefined && (
                 <div>
                   <p><strong>Output:</strong></p>
                   <pre className="bg-white p-2 rounded text-xs overflow-auto">
-                    {JSON.stringify(result.output, null, 2)}
+                    {typeof result.output === 'object' && result.output !== null ? JSON.stringify(result.output, null, 2) : String(result.output)}
                   </pre>
                 </div>
               )}
