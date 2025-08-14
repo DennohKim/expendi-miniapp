@@ -7,13 +7,14 @@ import {
   getBasenameMetadata,
   isValidBasename,
   normalizeBasename,
+  type BaseName 
 } from '../lib/apis/basenames';
+import { useSpendFromBucket } from './useSpendFromBucket';
 import { getNetworkConfig } from '../lib/contracts/config';
 import { BUDGET_WALLET_ABI } from '../lib/contracts/budget-wallet';
-import { SmartAccountClientType } from '../types/smart-account';
 
 interface BasenamePaymentRequest {
-  smartAccountClient: SmartAccountClientType; // Smart account client from permissionless
+  smartAccountClient: any; // Smart account client from permissionless
   walletAddress: `0x${string}`;
   userAddress: `0x${string}`;
   bucketName: string;
@@ -84,7 +85,7 @@ export function useRecipientDisplayName(recipient: string | null) {
 
 // Main hook for Base ENS payments
 export function useBasenamePayment() {
-  // const spendFromBucket = useSpendFromBucket();
+  const spendFromBucket = useSpendFromBucket();
 
   const mutation = useMutation({
     mutationFn: async (request: BasenamePaymentRequest): Promise<BasenamePaymentResponse> => {

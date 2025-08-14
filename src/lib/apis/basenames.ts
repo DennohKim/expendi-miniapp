@@ -6,6 +6,8 @@ import {
   http,
   keccak256,
   namehash,
+  parseUnits,
+  formatUnits,
   isAddress,
 } from 'viem';
 import { base, mainnet } from 'viem/chains';

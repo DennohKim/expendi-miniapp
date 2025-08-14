@@ -30,8 +30,6 @@ export const farcasterPrivyConfig: PrivyClientConfig = {
     noPromptOnMfaRequired: false,
   },
   
-  // Farcaster-specific configuration is handled via loginMethods
-  
   // Legal configuration
   legal: {
     termsAndConditionsUrl: 'https://yourdomain.com/terms',
@@ -43,8 +41,8 @@ export const isFarcasterMiniApp = (): boolean => {
   // Check if running in Farcaster miniapp context
   if (typeof window === 'undefined') return false;
   
-  // Check for Farcaster frame SDK context
-  return !!(window as unknown as { farcasterFrame?: unknown }).farcasterFrame || 
-         window.location.pathname.includes('/miniapp') ||
-         window.parent !== window; // Embedded in frame
+  // Check for Farcaster miniapp context
+  return window.location.pathname.includes('/miniapp') ||
+         window.parent !== window || // Embedded context
+         !!(window as unknown as { parent?: { location?: { hostname?: string } } }).parent?.location?.hostname?.includes('farcaster'); // Farcaster client
 };

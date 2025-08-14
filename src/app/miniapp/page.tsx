@@ -47,7 +47,7 @@ export default function MiniAppPage() {
   // Show main miniapp dashboard
   return (
     <MiniAppDashboard 
-      farcasterProfile={farcasterProfile || undefined}
+      farcasterProfile={farcasterProfile}
     />
   );
 }

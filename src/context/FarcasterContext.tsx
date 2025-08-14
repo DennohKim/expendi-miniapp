@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { initializeFarcasterSDK, isFarcasterSDKReady } from '@/lib/farcaster/sdk';
-import { sdk } from '@farcaster/frame-sdk';
+import { sdk } from '@farcaster/miniapp-sdk';
 
 interface FarcasterContextType {
   sdk: typeof sdk | null;
@@ -13,7 +13,7 @@ interface FarcasterContextType {
     ready: () => Promise<void>;
     openUrl: (url: string) => Promise<void>;
     close: () => Promise<void>;
-    composeCast: (options: { text: string; embeds?: [] | [string] | [string, string] }) => Promise<void>;
+    composeCast: (options: { text: string; embeds?: string[] }) => Promise<void>;
   };
 }
 
@@ -40,14 +40,16 @@ export const FarcasterProvider = ({ children }: FarcasterProviderProps) => {
   useEffect(() => {
     const initSDK = async () => {
       try {
-        const farcasterSDK = initializeFarcasterSDK();
+        const farcasterSDK = await initializeFarcasterSDK();
         setSdkInstance(farcasterSDK);
 
         // Wait for SDK to be ready
-        const checkReady = () => {
-          if (isFarcasterSDKReady(farcasterSDK)) {
+        const checkReady = async () => {
+          const ready = await isFarcasterSDKReady(farcasterSDK);
+          if (ready) {
             setIsReady(true);
-            setContext(farcasterSDK.context);
+            const context = await farcasterSDK.context;
+            setContext(context);
             setError(null);
           } else {
             // Keep checking until ready
@@ -96,7 +98,7 @@ export const FarcasterProvider = ({ children }: FarcasterProviderProps) => {
       }
     },
 
-    composeCast: async (options: { text: string; embeds?: [] | [string] | [string, string] }) => {
+    composeCast: async (options: { text: string; embeds?: string[] }) => {
       if (sdkInstance?.actions?.composeCast) {
         try {
           await sdkInstance.actions.composeCast(options);

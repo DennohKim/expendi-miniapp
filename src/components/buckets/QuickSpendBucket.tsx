@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { formatUnits } from "viem";
-import { useWallets } from "@privy-io/react-auth";
+import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { useUserBudgetWallet } from "@/hooks/subgraph-queries/useUserBudgetWallet";
 import { useUserBuckets } from "@/hooks/subgraph-queries/getUserBuckets";
 import { useSmartAccount } from "@/context/SmartAccountContext";
@@ -25,6 +25,7 @@ import { useDebouncedValidation } from "@/hooks/useDebouncedValidation";
 import { useBucketPayment } from "@/hooks/useBucketPayment";
 import { useBasenamePayment } from "@/hooks/useBasenamePayment";
 import { useRecipientValidation } from "@/hooks/useBasenamePayment";
+import { isValidBasename, normalizeBasename } from "@/lib/apis/basenames";
 
 interface TokenBalance {
   id: string;
@@ -53,6 +54,7 @@ interface UserBucket {
 
 export function QuickSpendBucket({ bucket }: { bucket: UserBucket[] }) {
 
+  const { ready, authenticated, user } = usePrivy();
   const { wallets } = useWallets();
   
   // Get the embedded wallet from Privy
