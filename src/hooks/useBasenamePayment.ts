@@ -8,7 +8,6 @@ import {
   isValidBasename,
   normalizeBasename,
 } from '../lib/apis/basenames';
-import { useSpendFromBucket } from './useSpendFromBucket';
 
 type SmartAccountClientType = {
   account?: { address: `0x${string}` };
