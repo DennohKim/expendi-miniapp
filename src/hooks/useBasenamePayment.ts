@@ -90,7 +90,6 @@ export function useRecipientDisplayName(recipient: string | null) {
 
 // Main hook for Base ENS payments
 export function useBasenamePayment() {
-  const spendFromBucket = useSpendFromBucket();
 
   const mutation = useMutation({
     mutationFn: async (request: BasenamePaymentRequest): Promise<BasenamePaymentResponse> => {

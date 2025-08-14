@@ -11,7 +11,7 @@ import {
   useRecipientDisplayName,
   useRecipientValidation 
 } from '../../hooks/useBasenamePayment';
-import { isValidBasename, normalizeBasename } from '../../lib/apis/basenames';
+import { normalizeBasename } from '../../lib/apis/basenames';
 import { Button } from '../ui/button';
 import Input from '../form/input/InputField';
 import Label from '../form/Label';
@@ -37,7 +37,7 @@ export function BasenamePaymentForm({
   monthlyLimit = '0',
   onSuccess
 }: BasenamePaymentFormProps) {
-  const { ready, authenticated, user } = usePrivy();
+  const { authenticated } = usePrivy();
   const { wallets } = useWallets();
   const { smartAccountClient } = useSmartAccount();
   
